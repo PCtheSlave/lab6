@@ -1,5 +1,6 @@
-package lib.collection;
+package server;
 
+import lib.dragon.Dragon;
 import lib.utils.DragonFieldsReader;
 
 import java.io.Serializable;

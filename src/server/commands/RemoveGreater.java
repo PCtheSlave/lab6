@@ -1,7 +1,8 @@
 package server.commands;
 
-import lib.collection.Dragon;
-import lib.collection.DragonFactory;
+import lib.Pack;
+import lib.dragon.Dragon;
+import server.DragonFactory;
 import server.CollectionManager;
 import server.interfaces.Command;
 
@@ -16,16 +17,17 @@ public class RemoveGreater implements Command {
     }
 
     @Override
-    public void execute() {
-        DragonFactory dragonFactory = new DragonFactory();
-        Dragon currentDragon = collectionManager.insert(dragonFactory.createDragon());
+    public Pack execute(Pack pack) {
+        collectionManager.insert(pack.getDragon());
         Stack<Dragon> needToRemoveDragons = new Stack<>();
         for (Dragon dragon : collectionManager.getDragons()) {
-            if (dragon.compareTo(currentDragon) > 0) {
+            if (dragon.compareTo(pack.getDragon()) > 0) {
                 needToRemoveDragons.add(dragon);
             }
         }
         collectionManager.getDragons().removeAll(needToRemoveDragons);
+        pack.pack("Объекты превышающие введённый - удалены\n");
+        return pack;
     }
 
     @Override

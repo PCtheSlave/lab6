@@ -1,5 +1,6 @@
 package server.commands;
 
+import lib.Pack;
 import server.CollectionManager;
 import server.interfaces.Command;
 
@@ -12,8 +13,10 @@ public class Shuffle implements Command {
     }
 
     @Override
-    public void execute() {
+    public Pack execute(Pack pack) {
         collectionManager.randDragon();
+        pack.pack("Объекты перемешаны\n");
+        return pack;
     }
 
     @Override

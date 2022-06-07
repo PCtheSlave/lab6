@@ -1,37 +1,41 @@
 package server.commands;
 
-import lib.collection.Dragon;
+import lib.Pack;
+import lib.dragon.Dragon;
 import server.CollectionManager;
 import server.interfaces.Command;
 
-public class GroupCountingByAge implements Command {
+public class GroupByAge implements Command {
 
     CollectionManager collectionManager;
 
-    GroupCountingByAge(CollectionManager collectionManager) {
+    GroupByAge(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
 
     @Override
-    public void execute() {
-        System.out.println("Молодые драконы:");
+    public Pack execute(Pack pack) {
+        String response = "";
+        response = "Молодые драконы:\n";
         for (Dragon val : collectionManager.getDragons()) {
             if (val.getAge() <= 14) {
-                System.out.println(val);
+                response += val + "\n";
             }
         }
-        System.out.println("Средние драконы:");
+        response += "Средние драконы:\n";
         for (Dragon val : collectionManager.getDragons()) {
             if (val.getAge() > 14 && val.getAge() < 40) {
-                System.out.println(val);
+                response += val + "\n";
             }
         }
-        System.out.println("Старые драконы:");
+        response += "Старые драконы:\n";
         for (Dragon val : collectionManager.getDragons()) {
             if (val.getAge() >= 40) {
-                System.out.println(val);
+                response += val + "\n";
             }
         }
+        pack.pack(response);
+        return pack;
     }
 
     @Override

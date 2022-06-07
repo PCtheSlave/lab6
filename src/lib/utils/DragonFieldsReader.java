@@ -1,12 +1,16 @@
 package lib.utils;
 
-import lib.collection.*;
-import lib.collection.Color;
+import lib.dragon.*;
+import lib.dragon.Color;
 
 import java.util.Scanner;
 
 public class DragonFieldsReader {
-    Scanner in = new Scanner(System.in);
+    static Scanner in = new Scanner(System.in);
+
+    public static void setIn(Scanner in) {
+        DragonFieldsReader.in = in;
+    }
 
     public String readName() {
         String str;
@@ -16,7 +20,6 @@ public class DragonFieldsReader {
             if (str.trim().equals("")) {
                 System.err.print("Имя не может быть пустой строкой\n");
                 continue;
-
             }
             if (str.trim().equals("null")) {
                 System.err.print("Имя не может быть null\n");

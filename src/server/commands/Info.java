@@ -1,5 +1,6 @@
 package server.commands;
 
+import lib.Pack;
 import server.CollectionManager;
 import server.interfaces.Command;
 import lib.utils.CollectionInfo;
@@ -16,12 +17,15 @@ public class Info implements Command {
     }
 
     @Override
-    public void execute() {
+    public Pack execute(Pack pack) {
+        String response = "";
         try {
-            textFormatter.getInfoAboutCollection(collectionManager);
+            response += textFormatter.getInfoAboutCollection(collectionManager);
         } catch (NullPointerException ex) {
-            System.err.println("В коллекции нет элементов");
+            response += "В коллекции нет элементов";
         }
+        pack.pack(response + "\n");
+        return pack;
     }
 
     @Override

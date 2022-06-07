@@ -1,6 +1,7 @@
 package server.commands;
 
-import lib.collection.Dragon;
+import lib.Pack;
+import lib.dragon.Dragon;
 import server.CollectionManager;
 import server.interfaces.CommandWithArguments;
 
@@ -12,21 +13,22 @@ public class FilterByWeight implements CommandWithArguments {
     private Scanner in;
     private String[] arguments;
 
-    FilterByWeight (CollectionManager collectionManager, Scanner in) {
+    FilterByWeight(CollectionManager collectionManager, Scanner in) {
         this.collectionManager = collectionManager;
         this.in = in;
     }
 
     @Override
-    public void execute() {
+    public Pack execute(Pack pack) {
+        String response = "";
         try {
             for (Dragon val : collectionManager.getDragons()) {
-                for (String argument : arguments) {
-                    if (val.getWeight() == Long.parseLong(argument)) {
-                        System.out.println(val);
-                    }
+                if (val.getWeight() == Long.parseLong(arguments[0])) {
+                    response += val + "\n";
                 }
             }
+            if (response.equals(""))
+                response += "Нет драконов с введённой массой\n";
         } catch (IndexOutOfBoundsException e) {
             System.err.println("Не указаны все аргументы команды!");
         } catch (NumberFormatException e) {
@@ -34,6 +36,8 @@ public class FilterByWeight implements CommandWithArguments {
         } catch (NullPointerException e) {
             System.err.println("Поле не может быть задано пустой строкой");
         }
+        pack.pack(response);
+        return pack;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package server.commands;
 
-import lib.collection.Dragon;
+import lib.Pack;
+import lib.dragon.Dragon;
 import server.CollectionManager;
 import server.interfaces.Command;
 
@@ -12,14 +13,17 @@ public class AverageOfWeight implements Command {
     }
 
     @Override
-    public void execute() {
+    public Pack execute(Pack pack) {
+        String response = "";
         int i = 0;
-        Double srWeight = 0.0;
+        double srWeight = 0.0;
         for (Dragon val : collectionManager.getDragons()) {
             srWeight += val.getWeight();
             i++;
         }
-        System.out.println(srWeight/i);
+        response = String.valueOf(srWeight/i);
+        pack.pack(response + "\n");
+        return pack;
     }
 
     @Override

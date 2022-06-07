@@ -1,4 +1,4 @@
-package lib.collection;
+package lib.dragon;
 
 import java.io.Serializable;
 
@@ -54,9 +54,12 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "nameKiller=" + name +
-                ", passportID=" + passportID +
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", passportID='" + passportID + '\'' +
                 ", hairColor=" + hairColor +
-                ", nationality=" + nationality + ", " + location;
+                ", nationality=" + nationality +
+                ", location=" + location +
+                '}';
     }
 }

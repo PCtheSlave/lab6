@@ -1,7 +1,9 @@
 package server.interfaces;
 
 
+import lib.Pack;
+
 public interface Command {
-    void execute();
+    Pack execute(Pack pack);
     String getDescription();
 }

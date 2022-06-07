@@ -1,11 +1,12 @@
 package server.commands;
 
+import lib.Pack;
 import server.CollectionManager;
 import server.interfaces.Command;
 import server.interfaces.CommandWithArguments;
 import lib.utils.DragonFieldsReader;
 
-import java.util.Arrays;
+import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
@@ -16,34 +17,36 @@ public class CommandInvoker {
     private HashMap<String, CommandWithArguments> commandWithArguments;
     private CollectionManager collectionManager;
     DragonFieldsReader dragonFieldsReader;
+    SocketChannel client;
 
-    public CommandInvoker(CollectionManager collectionManager, Scanner in, DragonFieldsReader dragonFieldsReader) {
+    public CommandInvoker(CollectionManager collectionManager, Scanner in, DragonFieldsReader dragonFieldsReader, SocketChannel client) {
         this.collectionManager = collectionManager;
         this.in = in;
         this.dragonFieldsReader = dragonFieldsReader;
         commandWithoutArguments = new HashMap<>();
         commandWithArguments = new HashMap<>();
+        this.client = client;
         this.registerCommands();
     }
 
 
     private void registerCommands() {
-        register("help", new Help(commandWithoutArguments, commandWithArguments));
-        register("info", new Info(collectionManager));
-        register("show", new Show(collectionManager));
-        register("add", new Add(collectionManager));
-        registerWithArgument("update", new Update(collectionManager, in));
-        registerWithArgument("remove_by_id", new RemoveById(collectionManager, in));
-        register("clear", new Clear(collectionManager));
-        register("save", new Save(collectionManager));
-        registerWithArgument("execute_script", new ExecuteScript(this, in));
-        register("exit", new Exit());
-        register("shuffle", new Shuffle(collectionManager));
-        register("remove_greater", new RemoveGreater(collectionManager));
-        register("remove_lower", new RemoveLower(collectionManager));
-        register("average_of_weight", new AverageOfWeight(collectionManager));
-        register("group_by_age", new GroupCountingByAge(collectionManager));
-        registerWithArgument("filter_by_weight", new FilterByWeight(collectionManager, in));
+        register("help", new Help(commandWithoutArguments, commandWithArguments));//
+        register("info", new Info(collectionManager));//
+        register("show", new Show(collectionManager, client));//
+        register("add", new Add(collectionManager));//
+        registerWithArgument("update", new Update(collectionManager));//
+        registerWithArgument("remove_by_id", new RemoveById(collectionManager, in));//
+        register("clear", new Clear(collectionManager));//
+        registerWithArgument("execute_script", new ExecuteScript());
+        register("exit", new Exit(collectionManager));//
+        register("shuffle", new Shuffle(collectionManager));//
+        register("remove_greater", new RemoveGreater(collectionManager));//
+        register("remove_lower", new RemoveLower(collectionManager));//
+        register("average_of_weight", new AverageOfWeight(collectionManager));//
+        register("group_by_age", new GroupByAge(collectionManager));//
+        registerWithArgument("filter_by_weight", new FilterByWeight(collectionManager, in));//
+        registerWithArgument("get_dragon", new GetDragon(collectionManager));
     }
 
     private void register(String name, Command command) {
@@ -53,21 +56,20 @@ public class CommandInvoker {
         commandWithArguments.put(name, command);
     }
 
-    public void execute(String firstLineCommand) {
-        String[] words = firstLineCommand.trim().split("\\s+");
-        String[] args = Arrays.copyOfRange(words, 1, words.length);
-
-        if (commandWithArguments.containsKey(words[0].toLowerCase(Locale.ROOT))) {
+    public Pack execute(Pack pack) {
+        String nameCommand = pack.getCommandName();
+        String[] args = pack.getArg();
+        Pack response = new Pack();
+        if (commandWithArguments.containsKey(nameCommand.toLowerCase(Locale.ROOT))) {
             CommandWithArguments command;
-            command = commandWithArguments.get(words[0].toLowerCase(Locale.ROOT));
+            command = commandWithArguments.get(nameCommand.toLowerCase(Locale.ROOT));
             command.getArguments(args);
-            command.execute();
-        } else if (commandWithoutArguments.containsKey(words[0].toLowerCase(Locale.ROOT))) {
+            response = command.execute(pack);
+        } else if (commandWithoutArguments.containsKey(nameCommand.toLowerCase(Locale.ROOT))) {
             Command command;
-            command = commandWithoutArguments.get(words[0].toLowerCase(Locale.ROOT));
-            command.execute();
-        } else {
-            System.out.println("Комманда " + words[0] + " не распознана, введите корректную команду!");
+            command = commandWithoutArguments.get(nameCommand.toLowerCase(Locale.ROOT));
+            response = command.execute(pack);
         }
+        return response;
     }
 }

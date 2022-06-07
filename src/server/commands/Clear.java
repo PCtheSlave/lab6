@@ -1,5 +1,6 @@
 package server.commands;
 
+import lib.Pack;
 import server.CollectionManager;
 import server.interfaces.Command;
 
@@ -12,9 +13,11 @@ public class Clear implements Command {
     }
 
     @Override
-    public void execute() {
+    public Pack execute(Pack pack) {
+        String response = "";
         collectionManager.clear();
-        System.out.println("Коллекция очищена!");
+        pack.pack("Коллекция очищена!\n");
+        return pack;
     }
 
     @Override

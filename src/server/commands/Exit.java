@@ -1,13 +1,22 @@
 package server.commands;
 
+import lib.Pack;
+import server.CollectionManager;
 import server.interfaces.Command;
 
 public class Exit implements Command {
 
+    CollectionManager collectionManager;
+
+    Exit(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
     @Override
-    public void execute() {
-        System.out.println("Завершение работы программы!");
-        System.exit(0);
+    public Pack execute(Pack pack) {
+//        collectionManager.save;
+        pack.pack("Вы откллючились от сервера\n");
+        return pack;
     }
 
     @Override

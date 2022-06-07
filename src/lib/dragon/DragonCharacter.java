@@ -1,4 +1,4 @@
-package lib.collection;
+package lib.dragon;
 
 public enum DragonCharacter {
     CUNNING,

@@ -1,4 +1,4 @@
-package lib.collection;
+package lib.dragon;
 
 import java.io.Serializable;
 
@@ -36,8 +36,10 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        return "xKiller=" + x +
-                ", yKiller=" + y +
-                ", nameLocation=" + name;
+        return "Location{" +
+                "x=" + x +
+                ", y=" + y +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

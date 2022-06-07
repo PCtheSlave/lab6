@@ -1,6 +1,6 @@
 package server;
 
-import lib.collection.*;
+import lib.dragon.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -11,6 +11,7 @@ public class CollectionManager {
     private LocalDate creationCollectionDate;
 
     public CollectionManager() {
+        creationCollectionDate = LocalDate.now();
         dragons = new Stack<>();
         dragonFactory = new DragonFactory();
     }
@@ -26,6 +27,15 @@ public class CollectionManager {
         dragon.setId(checkId);
         dragons.push(dragon);
         return dragon;
+    }
+
+    public void reload(Dragon dragon) {
+        int checkId = dragon.getId();
+        for (int i = 0; i < dragons.size(); i++) {
+            if (dragons.get(i).getId() == checkId) {
+                dragons.set(i, dragon);
+            }
+        }
     }
 
     public Stack<Dragon> randDragon() {
@@ -138,8 +148,8 @@ public class CollectionManager {
 
     }
 
-    public void removeById(int id) {
-        dragons.removeElementAt(id);
+    public void removeById(Dragon dragon) {
+        dragons.remove(dragon);
     }
 
     public void clear() {

@@ -1,4 +1,4 @@
-package lib.file;
+package server.server;
 
 import lib.dragon.*;
 import server.CollectionManager;

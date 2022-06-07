@@ -1,5 +1,6 @@
 package server.commands;
 
+import lib.Pack;
 import server.interfaces.Command;
 import server.interfaces.CommandWithArguments;
 
@@ -17,14 +18,17 @@ public class Help implements Command {
     }
 
     @Override
-    public void execute() {
+    public Pack execute(Pack pack) {
+        String response = "";
         for (Map.Entry<String, Command> entry : commandsWithoutArguments.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue().getDescription());
+            response += entry.getKey() + " " + entry.getValue().getDescription() + "\n";
         }
 
         for (Map.Entry<String, CommandWithArguments> entry : commandWithArguments.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue().getDescription());
+            response += entry.getKey() + " " + entry.getValue().getDescription() + "\n";
         }
+        pack.pack(response);
+        return pack;
     }
 
     @Override

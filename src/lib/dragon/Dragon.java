@@ -1,4 +1,4 @@
-package lib.collection;
+package lib.dragon;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
         this.weight = weight;
     }
 
-    public boolean isSpeaking() {
+    public boolean getSpeaking() {
         return speaking;
     }
     public void setSpeaking(boolean speaking) {
@@ -92,13 +92,22 @@ public class Dragon implements Comparable<Dragon>, Serializable {
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ", name=" + name  + ", " + coordinates +
+        return  "id=" + id +
+                ", name=" + name +
+                ", coordinatesX=" + coordinates.getX() +
+                ", coordinatesY=" + coordinates.getY() +
                 ", creationDate=" + creationDate +
                 ", age=" + age +
                 ", weight=" + weight +
                 ", speaking=" + speaking +
-                ", character=" + character + ", " + killer;
+                ", character=" + character +
+                ", killerName=" + killer.getName() +
+                ", killerPassport=" + killer.getPassportID() +
+                ", killerHair=" + killer.getHairColor() +
+                ", killerCountry=" + killer.getNationality() +
+                ", killerX=" + killer.getLocation().getX() +
+                ", killerY=" + killer.getLocation().getY() +
+                ", killerLocation=" + killer.getLocation().getName();
     }
 
     @Override
