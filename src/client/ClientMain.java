@@ -10,4 +10,4 @@ public class ClientMain {
         client.run(7070);
     }
 }
-//execute_script /Users/dmitrivasliaev/Documents/university/2sem/proga/labs/lab6/src/resouces/script2sd
+//execute_script /Users/dmitrivasliaev/Documents/university/2sem/proga/labs/lab6/src/resouces/script2
